@@ -1,0 +1,12 @@
+[general]
+name=WFS Styler Plugin
+description=Set a WMS style to a WFS layer
+about=If a GIS service is hosting data both as WMS and WFS layers, this plugin
+    tries to find the corresponding WMS for a WFS, pick up the WMS styles
+    (SLD's) and set the style to the WFS.
+version=0.1.0
+qgisMinimumVersion=3.22
+qgisMaximumVersion=3.99
+author=Raymond Nijssen
+email=r.nijssen@terglobo.nl
+repository=
