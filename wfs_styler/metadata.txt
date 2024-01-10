@@ -1,12 +1,28 @@
 [general]
 name=WFS Styler Plugin
 description=Set a WMS style to a WFS layer
-about=If a GIS service is hosting data both as WMS and WFS layers, this plugin
-    tries to find the corresponding WMS for a WFS, pick up the WMS styles
+about=If an OGC service is hosting data both as WMS and WFS layers, this plugin
+    tries to find the corresponding WMS for a WFS, picks up the WMS styles
     (SLD's) and set the style to the WFS.
-version=0.1.0
+version=1.0.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=3.99
 author=Raymond Nijssen
 email=r.nijssen@terglobo.nl
-repository=
+
+tracker=https://github.com/raymondnijssen/wfs_styler_qgis_plugin/-/issues
+repository=https://github.com/raymondnijssen/wfs_styler_qgis_plugin
+homepage=https://github.com/raymondnijssen/wfs_styler_qgis_plugin
+
+changelog=
+    1.0.0   (2024-01-10) Official first release
+
+# Tags are comma separated without spaces. (Spaces are allowed within the tag.)
+tags=ogc,wfs,wms,sld,style,styler,geoserver
+
+category=Plugins
+icon=icon.svg
+
+hasProcessingProvider=no
+experimental=False
+deprecated=False
