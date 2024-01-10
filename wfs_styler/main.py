@@ -1,16 +1,19 @@
 import os
 
 from PyQt5.QtCore import QStandardPaths
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QDialog
 from PyQt5.QtGui import QIcon
 
+from .pick_style import PickStyleDialog
 from .wfs_probe import WfsStyleProbe
 
-class WfsStylerPlugin:
+
+class WfsStylerPlugin():
 
     def __init__(self, iface):
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
+        self.pick_style_dlg = PickStyleDialog(self)
 
     def initGui(self):
         icon = QIcon(os.path.join(self.plugin_dir, 'icon.svg'))
@@ -33,8 +36,26 @@ class WfsStylerPlugin:
             return
 
         probe = WfsStyleProbe(layer)
+        print(probe.styles)
 
-        style_name = next(iter(probe.styles)) # Pick first
+        print('Found styles: {}'.format(len(probe.styles)))
+
+        if len(probe.styles) == 0:
+            print('No styles found')
+            return
+
+        self.pick_style_dlg.set_styles(probe.styles)
+
+        #self.pick_style_dlg.show()
+        #self.generate_calc_input_dlg.show()
+        result = self.pick_style_dlg.exec_()
+        if result:
+            style_name = self.pick_style_dlg.list_styles.currentItem().text()
+            print(f'Picked style: {style_name}')
+        else:
+            print('Canceled')
+            return
+        #style_name = next(iter(probe.styles)) # Pick first
         #print(style_name)
 
         tmp_dir = QStandardPaths.writableLocation(QStandardPaths.TempLocation)
