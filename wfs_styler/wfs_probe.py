@@ -9,17 +9,15 @@
 # (at your option) any later version.
 # ---------------------------------------------------------------------
 
-import os
-import xml.etree.ElementTree as ET
-import io
+#import os
 
 from PyQt5.QtCore import QUrl
 from PyQt5.QtNetwork import QNetworkRequest
+from PyQt5.QtXml import QDomDocument
 
 from qgis.core import QgsBlockingNetworkRequest
 from urllib.parse import urlparse
 
-from owslib.wms import WebMapService
 
 class WfsStyleProbe(object):
 
@@ -28,8 +26,7 @@ class WfsStyleProbe(object):
         self.source_dict = self.get_source_dict(self.layer)
         self.wfs_url = QUrl(self.source_dict.get('url', None))
         self.layer_name = self.source_dict.get('typename', None)
-        #self.capabilities_tree = self.get_capabilities()
-        self.styles = self.get_styles_owslib()
+        self.styles = self.get_styles()
 
     def __str__(self):
         result = ('WfsStyleProbe[]')
@@ -66,63 +63,85 @@ class WfsStyleProbe(object):
         # print(reply)
         return reply
 
-    def get_styles_owslib(self):
+    def get_styles(self):
         self.wms_url = self.guess_wms_url()
+
         if self.wms_url is None:
             return {}
+        styles_url = QUrl(self.wms_url)
+        styles_url.setQuery(f'SERVICE=WMS&VERSION=1.1.1&REQUEST=GetStyles&LAYERS={self.layer_name}')
+
+        reply = self.run_request(styles_url)
+        content = reply.content()
+
+        doc = QDomDocument()
+        doc.setContent(content)
+        named_layer = doc.firstChildElement('sld:Namedlayer')
+        user_styles = doc.elementsByTagName('sld:UserStyle')
+
+        style_dict = {}
+
+        for i in range(len(user_styles)):
+            user_style = user_styles.item(i)
+            node = user_style.firstChildElement('sld:Name')
+            name = node.toElement().text()
+            node = user_style.firstChildElement('sld:Title')
+            title = node.toElement().text()
+            node = user_style.firstChildElement('sld:FeatureTypeStyle')
+            
+            style_dict[name] = {
+                'name': name,
+                'title': title,
+                'sld_node': node
+            }
         
-        wms = WebMapService(self.wms_url.toString())
+        return style_dict
 
-        layer_names = [self.layer_name]
-        layer_names.append(self.layer_name.split(':')[-1]) # Without the name space and ":"
-
-        result = {}
-        for layer_name in layer_names:
-            pass
-            try:
-                styles = wms.contents[layer_name].styles
-                result.update(styles)
-            except(KeyError):
-                print(f'  passing {layer_name}')
-                pass
-        
-        return result
-
-    def get_sld(self, style_name, sld_fn):
+    def create_sld_file(self, style_name, sld_fn):
         style = self.styles.get(style_name, None)
+        print(style)
 
         if style is None:
             print(f'style {style_name} not found')
             return False
 
-        # print(style['title'])
+        doc = QDomDocument()
 
-        style_url = QUrl(self.wms_url)
-        style_url.setQuery(f'SERVICE=WMS&VERSION=1.1.1&REQUEST=GetStyles&layers={self.layer_name}&STYLE={style_name}')
-        print(style_url.toEncoded())
+        inst = doc.createProcessingInstruction('xml', 'version="1.0" encoding="UTF-8"')
+        doc.appendChild(inst)
 
-        reply = self.run_request(style_url)
-        # print(reply)
-        content = reply.content()
+        sld_elem = doc.createElement('sld:StyledLayerDescriptor')
+        sld_elem.setAttribute('xmlns', 'http://www.opengis.net/sld')
+        sld_elem.setAttribute('version', '1.1.0')
+        sld_elem.setAttribute('xsi:schemaLocation', 'http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/StyledLayerDescriptor.xsd')
+        sld_elem.setAttribute('xmlns:se', 'http://www.opengis.net/se')
+        sld_elem.setAttribute('xmlns:ogc', 'http://www.opengis.net/ogc')
+        sld_elem.setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+        sld_elem.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+
+        named_layer_elem = doc.createElement('sld:NamedLayer')
+
+        layer_name_elem = doc.createElement('sld:Name')
+        layer_name_elem.appendChild(doc.createTextNode(self.layer_name))
+        named_layer_elem.appendChild(layer_name_elem)
+
+        user_style_elem = doc.createElement('sld:UserStyle')
+
+        style_name_elem = doc.createElement('sld:Name')
+        style_name_elem.appendChild(doc.createTextNode(style_name))
+        user_style_elem.appendChild(style_name_elem)
+
+        sld_node = style['sld_node']
+        user_style_elem.appendChild(sld_node)
+
+        named_layer_elem.appendChild(user_style_elem)
+
+        sld_elem.appendChild(named_layer_elem)
+        doc.appendChild(sld_elem)
 
         with open(sld_fn, 'w') as sld_file:
-            sld_file.write(content.data().decode('utf8'))
-            return True
-
-    def get_capabilities(self):
-        '''Depricated'''
-        wms_url = self.guess_wms_url()
-
-        if wms_url is None:
-            return
-        
-        capabilities_url = QUrl(wms_url)
-        capabilities_url.setQuery('SERVICE=WMS&REQUEST=GetCapabilities&ACCEPTVERSIONS=2.0.0,1.1.0,1.0.0')
-
-        reply = self.run_request(capabilities_url)
-        content = reply.content()
-        result = ET.fromstring(content)
-        return result
+            sld_file.write(doc.toString())
+        return True
 
     def guess_wms_url(self):
         if self.wfs_url is None or self.wfs_url.isEmpty():

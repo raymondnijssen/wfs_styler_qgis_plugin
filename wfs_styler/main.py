@@ -25,7 +25,6 @@ class WfsStylerPlugin():
         self.iface.removeToolBarIcon(self.action)
         del self.action
 
-
     def is_wfs_layer(self, layer):
         return layer.storageType() == 'OGC WFS (Web Feature Service)'
 
@@ -36,9 +35,8 @@ class WfsStylerPlugin():
             return
 
         probe = WfsStyleProbe(layer)
-        print(probe.styles)
 
-        print('Found styles: {}'.format(len(probe.styles)))
+        #print('Found styles: {}'.format(len(probe.styles)))
 
         if len(probe.styles) == 0:
             print('No styles found')
@@ -55,14 +53,14 @@ class WfsStylerPlugin():
         else:
             print('Canceled')
             return
-        #style_name = next(iter(probe.styles)) # Pick first
-        #print(style_name)
+
 
         tmp_dir = QStandardPaths.writableLocation(QStandardPaths.TempLocation)
         sld_fn = os.path.join(tmp_dir, 'qgis_wfs_styler_plugin_style.sld')
         #print(sld_fn)
 
-        if probe.get_sld(style_name, sld_fn):
+        if probe.create_sld_file(style_name, sld_fn):
             layer.loadSldStyle(sld_fn)
+            self.iface.mapCanvas().refreshAllLayers() # TODO: Figure out if this is the most efficient
         else:
             print('No SLD file created')
