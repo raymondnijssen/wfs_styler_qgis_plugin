@@ -4,6 +4,8 @@ from PyQt5.QtCore import QStandardPaths
 from PyQt5.QtWidgets import QAction, QDialog
 from PyQt5.QtGui import QIcon
 
+from qgis.core import QgsVectorLayer
+
 from .pick_style import PickStyleDialog
 from .wfs_probe import WfsStyleProbe
 
@@ -17,15 +19,31 @@ class WfsStylerPlugin():
 
     def initGui(self):
         icon = QIcon(os.path.join(self.plugin_dir, 'icon.svg'))
-        self.action = QAction(icon, 'Try to set SLD to current layer', self.iface.mainWindow())
+        self.action = QAction(icon, 'Find style for active WFS layer', self.iface.mainWindow())
         self.action.triggered.connect(self.probe_active_layer)
         self.iface.addToolBarIcon(self.action)
+        
+        self.iface.mapCanvas().currentLayerChanged.connect(self.update_widgets)
+
+        self.update_widgets()
+
 
     def unload(self):
+        self.iface.mapCanvas().currentLayerChanged.disconnect(self.update_widgets)
+
         self.iface.removeToolBarIcon(self.action)
         del self.action
 
+    def update_widgets(self):
+        layer = self.iface.activeLayer()
+        if layer is None:
+            self.action.setEnabled(False)
+        else:
+            self.action.setEnabled(self.is_wfs_layer(layer))
+
     def is_wfs_layer(self, layer):
+        if not isinstance(layer, QgsVectorLayer):
+            return False
         return layer.storageType() == 'OGC WFS (Web Feature Service)'
 
     def probe_active_layer(self):
