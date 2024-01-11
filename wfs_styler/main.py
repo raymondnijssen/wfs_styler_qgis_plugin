@@ -7,7 +7,7 @@
 import os
 
 from PyQt5.QtCore import QStandardPaths
-from PyQt5.QtWidgets import QAction, QDialog
+from PyQt5.QtWidgets import QAction, QDialog, QMessageBox
 from PyQt5.QtGui import QIcon
 
 from qgis.core import QgsVectorLayer
@@ -19,6 +19,7 @@ from .wfs_probe import WfsStyleProbe
 class WfsStylerPlugin():
 
     def __init__(self, iface):
+        self.name = 'WFS Styler'
         self.iface = iface
         self.plugin_dir = os.path.dirname(__file__)
         self.pick_style_dlg = PickStyleDialog(self)
@@ -32,7 +33,6 @@ class WfsStylerPlugin():
         self.iface.mapCanvas().currentLayerChanged.connect(self.update_widgets)
 
         self.update_widgets()
-
 
     def unload(self):
         self.iface.mapCanvas().currentLayerChanged.disconnect(self.update_widgets)
@@ -52,6 +52,12 @@ class WfsStylerPlugin():
             return False
         return layer.storageType() == 'OGC WFS (Web Feature Service)'
 
+    def show_message_box(self, txt):
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle(self.name)
+        msg_box.setText(txt)
+        msg_box.exec()
+
     def probe_active_layer(self):
         layer = self.iface.activeLayer()
         if not self.is_wfs_layer(layer):
@@ -64,6 +70,7 @@ class WfsStylerPlugin():
 
         if len(probe.styles) == 0:
             print('No styles found')
+            self.show_message_box(f'No styles could be found for layer \'{probe.layer_name}\'.')
             return
 
         self.pick_style_dlg.set_styles(probe.styles)
