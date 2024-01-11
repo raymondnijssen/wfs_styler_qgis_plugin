@@ -11,7 +11,44 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs10" />
+     id="defs10">
+    <linearGradient
+       id="a"
+       gradientTransform="rotate(43.47495,9.8542429,287.12195)"
+       gradientUnits="userSpaceOnUse"
+       x1="11.125094"
+       x2="6.481286"
+       y1="286.60989"
+       y2="286.00851">
+      <stop
+         offset="0"
+         stop-color="#bf7b10"
+         id="stop1" />
+      <stop
+         offset="1"
+         stop-color="#e8b86d"
+         id="stop2" />
+    </linearGradient>
+    <linearGradient
+       id="b"
+       gradientTransform="rotate(43.47495,9.9086124,287.08584)"
+       gradientUnits="userSpaceOnUse"
+       x1="11.509375"
+       x2="5.2471309"
+       y1="294.75101"
+       y2="291.61029">
+      <stop
+         offset="0"
+         stop-color="#e2af61"
+         id="stop3"
+         style="stop-color:#1b286f;stop-opacity:1;" />
+      <stop
+         offset="1"
+         stop-color="#f1d8b2"
+         id="stop4"
+         style="stop-color:#2e8eb9;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
   <sodipodi:namedview
      id="namedview10"
      pagecolor="#ffffff"
@@ -21,26 +58,24 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="33.410795"
-     inkscape:cx="13.06464"
-     inkscape:cy="15.952928"
-     inkscape:window-width="2506"
-     inkscape:window-height="1376"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg10" />
+     inkscape:zoom="23.625"
+     inkscape:cx="5.2486773"
+     inkscape:cy="17.73545"
+     inkscape:window-width="2027"
+     inkscape:window-height="1174"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g22" />
   <path
      d="m 12,2.1981349 c 7.116,3.533 6.1,16.7780001 0,19.4270001 m -11.182,-9.713 H 23.182 M 2.19,6.6001349 c 5.693,0.76 13.825,0.76 19.518,0 M 2.19,17.223135 c 5.693,-0.759 13.825,-0.759 19.518,0 M 12,2.1981349 c -6.1,2.65 -7.116,15.8950001 0,19.4270001"
      fill="none"
-     stroke="#749fcf"
      stroke-width="0.75162"
      id="path1"
-     style="stroke:#f296e6;stroke-opacity:1" />
+     style="stroke:#f2c319;stroke-opacity:1" />
   <path
      d="m 23.437228,11.912115 c 0,5.485595 -5.120343,9.933397 -11.436974,9.933397 -6.316631,0 -11.43602921,-4.447802 -11.43602921,-9.934215 0,-5.4864121 5.12034241,-9.9333971 11.43602921,-9.9333971 6.316631,0 11.436974,4.446985 11.436974,9.9333971 z"
      fill="none"
-     stroke="#5488c4"
      stroke-width="1.12784"
      id="path2"
      style="stroke:#b84039;stroke-opacity:1" />
@@ -79,7 +114,7 @@
        stroke-width=".947"
        transform="matrix(1.16314,0,0,1.21859,10.522,-9.71)"
        id="path6"
-       style="stroke:#ebb312;stroke-width:0.946627;stroke-dasharray:none;stroke-opacity:1" />
+       style="stroke:#f253e6;stroke-width:0.946627;stroke-dasharray:none;stroke-opacity:1" />
     <path
        d="m 4.5,12.5 a 1,1 0 1 1 -2,0 1,1 0 0 1 2,0 z"
        fill="#ffffff"
@@ -88,5 +123,9 @@
        transform="matrix(1.16314,0,0,1.21859,14.618,-9.7)"
        id="path7"
        style="stroke:#1d8c1c;stroke-width:0.946627;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       stroke="#976009"
+       transform="matrix(1.0658725,0,0,1.0658725,9.9841017,-295.98935)"
+       id="g22" />
   </g>
 </svg>
