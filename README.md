@@ -9,7 +9,7 @@ tries to find the corresponding WMS for a WFS, picks up the WMS styles
 ## How to
 
 Selecting a WFS layer in the layer panel will enable the plugin button 
-![button](wfs_styler/icon.png). When clicking the button, the plugin will try to 
+![button](wfs_styler/icon.svg). When clicking the button, the plugin will try to 
 **guess** the URL to the WMS service and try to find any styles hosted there.
 
 ![pick style dialog](screenshot_pick_style_dlg.png)
