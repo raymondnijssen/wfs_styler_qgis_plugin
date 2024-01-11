@@ -4,5 +4,4 @@ QGIS plugin for setting a WMS style to a WFS layer
 
 ## Licence
 
-This software is licenced under the EUPL.
-[]
+This software is licenced under the [EUPL](LICENSE).
