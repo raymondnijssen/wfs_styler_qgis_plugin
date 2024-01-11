@@ -12,11 +12,12 @@ Selecting a WFS layer in the layer panel will enable the plugin button
 ![button](wfs_styler/icon.svg). When clicking the button, the plugin will try to 
 **guess** the URL to the WMS service and try to find any styles hosted there.
 
+If one or more styles are found, the plugin will show a dialog with the
+style name(s) to the user. 
+
 ![pick style dialog](screenshot_pick_style_dlg.png)
 
-If one or more styles are found, the plugin will show a dialog with the
-style name(s) to the user. The user can pick a style and the plugin will
-apply that style to the active layer.
+The user can pick a style and the plugin will apply that style to the active layer.
 
 ## Limitations
 
