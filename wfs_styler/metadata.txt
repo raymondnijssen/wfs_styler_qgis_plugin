@@ -15,7 +15,7 @@ repository=https://github.com/raymondnijssen/wfs_styler_qgis_plugin
 homepage=https://github.com/raymondnijssen/wfs_styler_qgis_plugin
 
 changelog=
-    1.0.0   (2024-01-10) Official first release
+    1.0.0   (2024-01-11) Official first release
 
 # Tags are comma separated without spaces. (Spaces are allowed within the tag.)
 tags=ogc,wfs,wms,sld,style,styler,geoserver

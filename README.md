@@ -23,7 +23,10 @@ The user can pick a style and the plugin will apply that style to the active lay
 
 * The plugin will download the SLD file and load it on the layer. There are (many)
 known issues between QGIS and SLD styling due to the differences in data formats.
-* The plugin has only been tested for GeoServer.
+* The plugin has only been tested on GeoServer and MapServer.
+* The plugin will need to guess the WMS url based on the WFS url. However, those can
+manually configured in different ways. For example, if the layer names are different
+for WMS and WFS, there's no chance the plugin will figure out the right WMS url.
 
 ## Licence
 
