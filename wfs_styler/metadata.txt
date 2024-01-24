@@ -4,6 +4,8 @@ description=Set a WMS style to a WFS layer
 about=If an OGC service is hosting data both as WMS and WFS layers, this plugin
     tries to find the corresponding WMS for a WFS, picks up the WMS styles
     (SLD's) and sets the style to the WFS.
+
+    This plugin was sponsored by Provincie Zeeland, The Netherlands.
 version=1.0.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=3.99

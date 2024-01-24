@@ -31,3 +31,7 @@ for WMS and WFS, there's no chance the plugin will figure out the right WMS url.
 ## Licence
 
 This software is licenced under the [EUPL](LICENSE).
+
+## Province of Zeeland
+
+The functional idea for this plugin came from the Province of Zeeland, The Netherlands. They also financially contributed to the development.
